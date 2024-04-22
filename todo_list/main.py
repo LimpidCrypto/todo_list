@@ -7,13 +7,14 @@ Requirements:
 * flask
 """
 
-import uuid 
+import uuid
 
 from flask import Flask, request, jsonify, abort
-
+from flas
 
 # initialize Flask server
 app = Flask(__name__)
+CORS(app)
 
 # create unique id for lists, entries
 todo_list_1_id = '1318d3d1-d979-47e1-a225-dab1751dbe75'

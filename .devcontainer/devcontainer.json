@@ -1,24 +1,37 @@
 {
 	"name": "todo_list",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"build": {
+		"context": ".",
+		"dockerfile": "Dockerfile"
+	},
+	"workspaceFolder": "/workspaces/${workspaceFolderBasename}",
 
 	// 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
 	// "features": {},
 
 	// 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000],
+	"forwardPorts": [5000],
 
 	// 👇 Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "",
+	"postCreateCommand": "chmod 777 ./setup.sh && ./setup.sh && export PATH=\"$HOME/.pyenv/bin:$PATH\"",
 
 	// 👇 Configure tool-specific properties.
 	"customizations": {
         "vscode": {
-            "extensions":["ms-python.python", "njpwerner.autodocstring"]
-            }
-        }
+            "extensions":[
+				"ms-python.python",
+				"njpwerner.autodocstring",
+				"tamasfe.even-better-toml",
+				"zeshuaro.vscode-python-poetry",
+				"donjayamanne.python-environment-manager",
+				"ms-python.debugpy",
+				"donjayamanne.python-extension-pack",
+				"redhat.vscode-yaml",
+				"42Crunch.vscode-openapi",
+				"EditorConfig.EditorConfig"
+			]
+		}
+	}
 
 	// 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
