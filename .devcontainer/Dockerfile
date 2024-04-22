@@ -10,3 +10,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
 
 # Install Angular CLI
 RUN npm install -g @angular/cli
+
+# Install Python3 and pip
+RUN apt update && apt install python3 python3-pip -y

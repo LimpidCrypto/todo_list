@@ -10,10 +10,10 @@
 	// "features": {},
 
 	// 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [5000],
+	"forwardPorts": [3000],
 
 	// 👇 Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "chmod 777 ./setup.sh && ./setup.sh && export PATH=\"$HOME/.pyenv/bin:$PATH\"",
+	"postCreateCommand": "sudo chmod 777 ./setup.sh && ./setup.sh",
 
 	// 👇 Configure tool-specific properties.
 	"customizations": {
@@ -22,13 +22,12 @@
 				"ms-python.python",
 				"njpwerner.autodocstring",
 				"tamasfe.even-better-toml",
-				"zeshuaro.vscode-python-poetry",
-				"donjayamanne.python-environment-manager",
 				"ms-python.debugpy",
-				"donjayamanne.python-extension-pack",
 				"redhat.vscode-yaml",
 				"42Crunch.vscode-openapi",
-				"EditorConfig.EditorConfig"
+				"EditorConfig.EditorConfig",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"donjayamanne.python-environment-manager"
 			]
 		}
 	}
