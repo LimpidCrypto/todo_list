@@ -10,7 +10,7 @@ Requirements:
 import uuid
 
 from flask import Flask, request, jsonify, abort
-from flas
+from flask_cors import CORS
 
 # initialize Flask server
 app = Flask(__name__)
@@ -18,25 +18,12 @@ CORS(app)
 
 # create unique id for lists, entries
 todo_list_1_id = '1318d3d1-d979-47e1-a225-dab1751dbe75'
-todo_list_2_id = '3062dc25-6b80-4315-bb1d-a7c86b014c65'
-todo_list_3_id = '44b02e00-03bc-451d-8d01-0c67ea866fee'
+todo_list_2_id = ''
+todo_list_3_id = ''
 todo_1_id = uuid.uuid4()
 todo_2_id = uuid.uuid4()
 todo_3_id = uuid.uuid4()
 todo_4_id = uuid.uuid4()
-
-# define internal data structures with example data
-todo_lists = [
-    {'id': todo_list_1_id, 'name': 'Einkaufsliste'},
-    {'id': todo_list_2_id, 'name': 'Arbeit'},
-    {'id': todo_list_3_id, 'name': 'Privat'},
-]
-todos = [
-    {'id': todo_1_id, 'name': 'Milch', 'description': '', 'list': todo_list_1_id},
-    {'id': todo_2_id, 'name': 'Arbeitsblätter ausdrucken', 'description': '', 'list': todo_list_2_id},
-    {'id': todo_3_id, 'name': 'Kinokarten kaufen', 'description': '', 'list': todo_list_3_id},
-    {'id': todo_3_id, 'name': 'Eier', 'description': '', 'list': todo_list_1_id},
-]
 
 # add some headers to allow cross origin access to the API on this server, necessary for using preview in Swagger Editor!
 @app.after_request
