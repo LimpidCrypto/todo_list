@@ -161,4 +161,5 @@ cython_debug/
 
 .python-version
 
-data/*
+data/lists.json
+data/todos.json
