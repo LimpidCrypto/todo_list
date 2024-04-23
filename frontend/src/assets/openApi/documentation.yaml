@@ -9,7 +9,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.1.0
 servers:
-- url: http://127.0.0.1:5000/
+- url: http://127.0.0.1:3000/
 tags:
 - name: Listenverwaltung
 paths:
@@ -68,7 +68,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TodoList'
+              $ref: '#/components/schemas/NewTodoList'
         required: true
       responses:
         200:
@@ -101,7 +101,7 @@ paths:
             schema:
               $ref: '#/components/schemas/NewTodoEntry'
       responses:
-        200:
+        201:
           description: List item returned
           content:
             application/json:
@@ -195,12 +195,10 @@ components:
           format: uuid
         name:
           type: string
-    NewTodoEntry:
+    NewTodoList:
       type: object
       properties:
         name:
-          type: string
-        beschreibung:
           type: string
     TodoEntry:
       type: object
@@ -212,9 +210,13 @@ components:
           type: string
         description:
           type: string
-        user_id:
-          type: string
-          format: uuid
         list_id:
           type: string
           format: uuid
+    NewTodoEntry:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
