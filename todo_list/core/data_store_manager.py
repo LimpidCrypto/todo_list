@@ -8,40 +8,40 @@ class DataList(Enum):
     LISTS = "lists"
     TODOS = "todos"
 
-class DataManager:
+class DataStoreManager:
     DATA_PATH = ROOT_DIR.joinpath('data')
 
     def _build_data_list_path(data_list: DataList) -> Path:
-        return DataManager.DATA_PATH.joinpath(f"{data_list.value}.json")
+        return DataStoreManager.DATA_PATH.joinpath(f"{data_list.value}.json")
 
-    def _read_data(data_list: DataList) -> Tuple[List[Dict[str, str]], int]:
+    def _read_data(data_list: DataList) -> List[Dict[str, str]]:
         try:
-            with open(DataManager._build_data_list_path(data_list), 'r') as file:
+            with open(DataStoreManager._build_data_list_path(data_list), 'r') as file:
                 return json.load(file)
         except (FileNotFoundError, json.JSONDecodeError) as error:
             raise error
 
-    def _write_data(data_list: DataList, data: List[Dict[str, str]]) -> int:
+    def _write_data(data_list: DataList, data: List[Dict[str, str]]) -> None:
         try:
-            with open(DataManager._build_data_list_path(data_list), 'w') as file:
+            with open(DataStoreManager._build_data_list_path(data_list), 'w') as file:
                 json.dump(data, file)
         except (FileNotFoundError, TypeError) as error:
             raise error
 
-    def write_entry(data_list: DataList, entry: Dict[str, str]) -> int:
+    def write_entry(data_list: DataList, entry: Dict[str, str]) -> None:
         try:
-            data, _ = DataManager._read_data(data_list)
+            data = DataStoreManager._read_data(data_list)
         except (FileNotFoundError, json.JSONDecodeError) as error:
             raise error
         data.append(entry)
         try:
-            return DataManager._write_data(data_list, data)
+            return DataStoreManager._write_data(data_list, data)
         except (FileNotFoundError, TypeError) as error:
             raise error
 
     def read_entry(data_list: DataList, entry_id: str) -> Dict[str, str]:
         try:
-            data, _ = DataManager._read_data(data_list)
+            data = DataStoreManager._read_data(data_list)
         except (FileNotFoundError, json.JSONDecodeError) as error:
             raise error
         for entry in data:
@@ -49,8 +49,19 @@ class DataManager:
                 return entry
         return {}
 
+    def remove_entry(data_list: DataList, entry_id: str) -> None:
+        try:
+            data = DataStoreManager._read_data(data_list)
+        except (FileNotFoundError, json.JSONDecodeError) as error:
+            raise error
+        data = [entry for entry in data if entry['id'] != entry_id]
+        try:
+            return DataStoreManager._write_data(data_list, data)
+        except (FileNotFoundError, TypeError) as error:
+            raise error
+
     def read_all_entries(data_list: DataList) -> List[Dict[str, str]]:
         try:
-            return DataManager._read_data(data_list), 200
+            return DataStoreManager._read_data(data_list)
         except (FileNotFoundError, json.JSONDecodeError) as error:
             raise error

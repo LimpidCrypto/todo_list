@@ -1,23 +1,21 @@
-from dataclasses import dataclass
 from enum import Enum
-import serde
-from . import Entity
-from todo_list.core.data_manager import DataList
-
-class Column(Enum):
-    ID = "id"
-    NAME = "name"
+from typing import Dict
+from serde import serde, from_dict
+from todo_list.models._entities import BaseEntity
 
 @serde
-@dataclass(frozen=True)
-class Model(Entity):
-    DATA_LIST = DataList.LISTS
-    ENTITY_COLUMNS = Column
-
+class Model():
     id: str
     name: str
 
     def __init__(self, id: str, name: str) -> None:
         self.id = id
         self.name = name
-        self.ENTITY_COLUMNS.NAME
+
+class Entity(BaseEntity[Model]):
+    def _deserialize(self, data: Dict[str, str]) -> Model:
+        return from_dict(Model, data)
+
+class Column(Enum):
+    ID = "id"
+    NAME = "name"

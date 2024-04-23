@@ -1,52 +1,66 @@
-from todo_list.core.data_manager import DataManager, DataList
-from flask import request, jsonify, abort, Blueprint
-from werkzeug.exceptions import InternalServerError
-from todo_list.models import find_all_lists
+from flask import request, Blueprint
+from werkzeug.exceptions import InternalServerError, NotFound, BadRequest
+from todo_list.models import find_all_lists, find_list_by_id, remove_list_by_id, create_list, NewListModel
+from serde import to_dict, SerdeError
+from serde.json import from_json
+from json import JSONDecodeError
+from uuid import UUID
 
 LIST_BLUEPRINT = Blueprint('list', __name__)
 
-# define endpoint for getting and deleting existing todo lists
-def handle_list(list_id):
-    # find todo list depending on given list id
-    list_item = None
-    for l in todo_lists:
-        if l['id'] == list_id:
-            list_item = l
-            break
-    # if the given list id is invalid, return status code 404
-    if not list_item:
-        abort(404)
-    if request.method == 'GET':
-        # find all todo entries for the todo list with the given id
-        print('Returning todo list...')
-        return jsonify([i for i in todos if i['list'] == list_id])
-    elif request.method == 'DELETE':
-        # delete list with given id
-        print('Deleting todo list...')
-        todo_lists.remove(list_item)
-        return '', 200
+@LIST_BLUEPRINT.errorhandler(InternalServerError)
+@LIST_BLUEPRINT.errorhandler(BadRequest)
+@LIST_BLUEPRINT.errorhandler(NotFound)
+def get_list_by_id(list_id):
+    try:
+        list_uuid = UUID(list_id)
+    except ValueError:
+        return 'Invalid list uuid', 400
+    try:
+        list_model = find_list_by_id(list_uuid)
+        if not list_model:
+            return 'Todo list not found', 404
+        return to_dict(list_model), 200
+    except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
+        return 'Unable to get todo list', 500
+
+@LIST_BLUEPRINT.errorhandler(InternalServerError)
+@LIST_BLUEPRINT.errorhandler(BadRequest)
+def delete_list_by_id(list_id):
+    try:
+        list_uuid = UUID(list_id)
+    except ValueError:
+        return 'Invalid list uuid', 400
+    try:
+        remove_list_by_id(list_uuid)
+        return '', 204
+    except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
+        return 'Unable to delete todo list', 500
 
 
-# define endpoint for adding a new list
-def add_new_list():
-    # make JSON from POST data (even if content type is not set correctly)
-    new_list = request.get_json(force=True)
-    print('Got new list to be added: {}'.format(new_list))
-    # create id for new list, save it and return the list with id
-    new_list['id'] = uuid.uuid4()
-    todo_lists.append(new_list)
-    return jsonify(new_list), 200
+def post_new_list():
+    try:
+        list_model = str(request.json).replace("'", '"')
+        new_entry = create_list(from_json(NewListModel, list_model))
+        return to_dict(new_entry), 201
+    except BadRequest:
+        return 'Invalid request', 400
 
 
 # define endpoint for getting all lists
 @LIST_BLUEPRINT.errorhandler(InternalServerError)
 def get_all_lists():
     try:
-        return jsonify(find_all_lists()), 200
+        list_models = find_all_lists()
+        list_model_list = []
+        for list_model in list_models:
+            list_model_list.append(to_dict(list_model))
+        return list_model_list, 200
     except Exception:
         return 'Unable to get all todo lists', 500
 
 
-LIST_BLUEPRINT.add_url_rule('/list/<list_id>', view_func=handle_list, methods=['GET', 'DELETE'])
-LIST_BLUEPRINT.add_url_rule('/list', view_func=add_new_list, methods=['POST'])
+LIST_BLUEPRINT.add_url_rule('/list/<list_id>', view_func=get_list_by_id, methods=['GET'])
+LIST_BLUEPRINT.add_url_rule('/list/<list_id>', view_func=delete_list_by_id, methods=['DELETE'])
+LIST_BLUEPRINT.add_url_rule('/list', view_func=post_new_list, methods=['POST'])
 LIST_BLUEPRINT.add_url_rule('/lists', view_func=get_all_lists, methods=['GET'])
