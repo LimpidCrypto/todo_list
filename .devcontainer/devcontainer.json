@@ -10,10 +10,10 @@
 	// "features": {},
 
 	// 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000],
+	"forwardPorts": [3000, 4200],
 
 	// 👇 Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo chmod 777 ./setup.sh && ./setup.sh",
+	"postCreateCommand": "sudo chmod 777 ./.devcontainer/setup.sh && ./.devcontainer/setup.sh",
 
 	// 👇 Configure tool-specific properties.
 	"customizations": {
@@ -27,7 +27,9 @@
 				"42Crunch.vscode-openapi",
 				"EditorConfig.EditorConfig",
 				"VisualStudioExptTeam.vscodeintellicode",
-				"donjayamanne.python-environment-manager"
+				"donjayamanne.python-environment-manager",
+				"shd101wyy.markdown-preview-enhanced",
+				"emilast.LogFileHighlighter"
 			]
 		}
 	}

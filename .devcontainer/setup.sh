@@ -15,3 +15,6 @@ poetry env use $HOME/.pyenv/versions/3.12.3/bin/python
 poetry install
 
 sudo npm install -g @angular/cli
+
+sudo chmod 777 ./serve.sh
+sudo chmod 777 ./down.sh
