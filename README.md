@@ -23,7 +23,7 @@
 6. Warten bis Devcontainer komplett konfiguriert wurde
 
 ## Quick Start
-1. Führe `poetry run python ./todo_list/main\.py` in einem Terminal aus, um den Backend Server zu starten.
+1. Führe `poetry run python ./todo_list/main.py` in einem Terminal aus, um den Backend Server zu starten.
 2. Führe `cd ./frontend && ng serve` in einem Terminal aus, um den Frontend Server zu starten.
 3. Erreiche das Frontend über [localhost:4200](http://localhost:4200).
 
@@ -34,33 +34,36 @@
 
 ### Directory Tree
 #### `todo_list`
+```
 todo_list/
 │
 ├── controllers/
-│   ├── \_\_init\_\_\.py
-│   ├── lists\\.py
-│   ├── todos\.py
-│   └── validations\.py
+│   ├── __init__.py
+│   ├── lists.py
+│   ├── todos.py
+│   └── validations.py
 │
 ├── core/
-│   ├── \_\_init\_\_\.py
-│   └── data_store_manager\.py
+│   ├── __init__.py
+│   └── data_store_manager.py
 │
 ├── models/
 │   │
 │   ├── _entities/
-│   │   ├── \_\_init\_\_\.py
-│   │   ├── base_entity\.py
-│   │   ├── lists\.py
-│   │   └── todos\.py
+│   │   ├── __init__.py
+│   │   ├── base_entity.py
+│   │   ├── lists.py
+│   │   └── todos.py
 │   │
-│   ├── \_\_init\_\_\.py
-│   ├── lists\.py
-│   └── todos\.py
+│   ├── __init__.py
+│   ├── lists.py
+│   └── todos.py
 │
-├── constants\.py
-└── main\.py
+├── constants.py
+└── main.py
+```
 #### `frontend`
+```
 frontend/
 │
 ├── .vscode/
@@ -95,7 +98,7 @@ frontend/
 │   │   │   │   │   │
 │   │   │   │   │   └── organisms.module.ts
 │   │   │   │   │
-│   │   │   │   ├── README\.md
+│   │   │   │   ├── README.md
 │   │   │   │   └── components.module.ts
 │   │   │   │
 │   │   │   └── shared.module.ts
@@ -121,7 +124,7 @@ frontend/
 │
 ├── .editorconfig
 ├── .gitignore
-├── README\.md
+├── README.md
 ├── angular.json
 ├── package-lock.json
 ├── package.json
@@ -129,3 +132,4 @@ frontend/
 ├── tsconfig.app.json
 ├── tsconfig.json
 └── tsconfig.spec.json
+```
