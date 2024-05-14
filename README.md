@@ -22,6 +22,6 @@
 6. Warten bis Devcontainer komplett konfiguriert wurde
 
 ## Quick Start
-1. Führe `./serve.sh` in einem Terminal aus
-2. Erreiche das Frontend über [localhost:4200](http://localhost:4200)
-3. Nutze `./down.sh` um die Server Prozesse zu beenden
+1. Führe `poetry run python ./todo_list/main.py` in einem Terminal aus, um den Backend Server zu starten.
+2. Führe `cd ./frontend && ng serve` in einem Terminal aus, um den Frontend Server zu starten.
+3. Erreiche das Frontend über [localhost:4200](http://localhost:4200).
