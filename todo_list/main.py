@@ -9,8 +9,7 @@ Requirements:
 
 from flask import Flask
 from flask_cors import CORS
-from todo_list.controllers.lists import LIST_BLUEPRINT
-from todo_list.controllers.todos import TODO_BLUEPRINT
+from todo_list.controllers import LIST_BLUEPRINT, TODO_BLUEPRINT
 
 def main():
     APP = Flask(__name__)
