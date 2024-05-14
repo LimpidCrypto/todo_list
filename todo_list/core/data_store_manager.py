@@ -1,14 +1,17 @@
 from todo_list.constants import ROOT_DIR
 from pathlib import Path
 import json
-from typing import List, Dict, Tuple
+from typing import List, Dict, Generic, TypeVar
 from enum import Enum
+from abc import ABC
 
 class DataList(Enum):
     LISTS = "lists"
     TODOS = "todos"
 
-class DataStoreManager:
+M = TypeVar("M")
+
+class DataStoreManager(Generic[M], ABC):
     DATA_PATH = ROOT_DIR.joinpath('data')
 
     def _build_data_list_path(data_list: DataList) -> Path:
@@ -49,14 +52,17 @@ class DataStoreManager:
                 return entry
         return {}
 
-    def remove_entry(data_list: DataList, entry_id: str) -> None:
+    def remove_entry(data_list: DataList, entries: List[M]) -> None:
         try:
             data = DataStoreManager._read_data(data_list)
         except (FileNotFoundError, json.JSONDecodeError) as error:
             raise error
-        data = [entry for entry in data if entry['id'] != entry_id]
+        new_data = []
+        for entry in data:
+            if entry['id'] not in [entry.id for entry in entries]:
+                new_data.append(entry)
         try:
-            return DataStoreManager._write_data(data_list, data)
+            return DataStoreManager._write_data(data_list, new_data)
         except (FileNotFoundError, TypeError) as error:
             raise error
 
