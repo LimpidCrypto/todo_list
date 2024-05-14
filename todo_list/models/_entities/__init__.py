@@ -13,5 +13,5 @@ __all__ = [
     "ListColumn",
     "TodoModel",
     "TodoColumn",
-    "TodoEntity"
+    "TodoEntity",
 ]

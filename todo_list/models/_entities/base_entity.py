@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 
 M = TypeVar("M")
 
+
 class BaseEntity(Generic[M], ABC):
     matching_entries: List[M] = []
     data_list: DataList
@@ -155,7 +156,6 @@ class BaseEntity(Generic[M], ABC):
             List[M]: The list of deserialized models.
         """
         try:
-            print(self.data_list, self.entry_id, self.where_list)
             arr = []
             for entry in dm.read_all_entries(self.data_list):
                 is_match = True
@@ -166,7 +166,7 @@ class BaseEntity(Generic[M], ABC):
                             is_match = False
                 # check if id is set and matches
                 if self.entry_id:
-                    is_match = entry['id'] == str(self.entry_id)
+                    is_match = entry["id"] == str(self.entry_id)
                 if is_match:
                     arr.append(self._deserialize(entry))
             self.matching_entries = arr

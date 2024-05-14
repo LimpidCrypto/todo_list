@@ -5,28 +5,31 @@ from typing import List, Dict, Generic, TypeVar
 from enum import Enum
 from abc import ABC
 
+
 class DataList(Enum):
     LISTS = "lists"
     TODOS = "todos"
 
+
 M = TypeVar("M")
 
+
 class DataStoreManager(Generic[M], ABC):
-    DATA_PATH = ROOT_DIR.joinpath('data')
+    DATA_PATH = ROOT_DIR.joinpath("data")
 
     def _build_data_list_path(data_list: DataList) -> Path:
         return DataStoreManager.DATA_PATH.joinpath(f"{data_list.value}.json")
 
     def _read_data(data_list: DataList) -> List[Dict[str, str]]:
         try:
-            with open(DataStoreManager._build_data_list_path(data_list), 'r') as file:
+            with open(DataStoreManager._build_data_list_path(data_list), "r") as file:
                 return json.load(file)
         except (FileNotFoundError, json.JSONDecodeError) as error:
             raise error
 
     def _write_data(data_list: DataList, data: List[Dict[str, str]]) -> None:
         try:
-            with open(DataStoreManager._build_data_list_path(data_list), 'w') as file:
+            with open(DataStoreManager._build_data_list_path(data_list), "w") as file:
                 json.dump(data, file)
         except (FileNotFoundError, TypeError) as error:
             raise error
@@ -48,7 +51,7 @@ class DataStoreManager(Generic[M], ABC):
         except (FileNotFoundError, json.JSONDecodeError) as error:
             raise error
         for entry in data:
-            if entry['id'] == entry_id:
+            if entry["id"] == entry_id:
                 return entry
         return {}
 
@@ -59,7 +62,7 @@ class DataStoreManager(Generic[M], ABC):
             raise error
         new_data = []
         for entry in data:
-            if entry['id'] not in [entry.id for entry in entries]:
+            if entry["id"] not in [entry.id for entry in entries]:
                 new_data.append(entry)
         try:
             return DataStoreManager._write_data(data_list, new_data)

@@ -1,10 +1,11 @@
 from serde import serde
 from typing import Optional, List
-from todo_list.models._entities import TodoModel, TodoEntity, TodoColumn
+from todo_list.models._entities import TodoModel, TodoEntity
 from todo_list.core.data_store_manager import DataStoreManager, DataList
 from json import JSONDecodeError
 from serde import SerdeError
 from uuid import uuid4, UUID
+
 
 @serde
 class NewTodoModel:
@@ -15,14 +16,27 @@ class NewTodoModel:
         self.name = name
         self.description = description
 
-def create_todo(list_uuid: UUID, todo: NewTodoModel, todo_uuid: Optional[UUID] = None) -> TodoModel:
+
+def create_todo(
+    list_uuid: UUID, todo: NewTodoModel, todo_uuid: Optional[UUID] = None
+) -> TodoModel:
     try:
         uuid = uuid4()
         if todo_uuid:
             uuid = todo_uuid
-        return TodoEntity().create(DataStoreManager, DataList.TODOS, TodoModel(id=str(uuid), name=todo.name, list_id=str(list_uuid), description=todo.description))
+        return TodoEntity().create(
+            DataStoreManager,
+            DataList.TODOS,
+            TodoModel(
+                id=str(uuid),
+                name=todo.name,
+                list_id=str(list_uuid),
+                description=todo.description,
+            ),
+        )
     except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
         raise error
+
 
 def find_todo_by_id(todo_uuid: UUID) -> Optional[TodoModel]:
     try:
@@ -30,11 +44,18 @@ def find_todo_by_id(todo_uuid: UUID) -> Optional[TodoModel]:
     except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
         raise error
 
+
 def find_todo_list_items(list_uuid: UUID) -> List[TodoModel]:
     try:
-        return TodoEntity().find(DataList.TODOS).where('list_id', str(list_uuid)).all(DataStoreManager)
+        return (
+            TodoEntity()
+            .find(DataList.TODOS)
+            .where("list_id", str(list_uuid))
+            .all(DataStoreManager)
+        )
     except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
         raise error
+
 
 def edit_todo_list_item(list_uuid: UUID, item_uuid: UUID, todo: NewTodoModel):
     try:
@@ -43,9 +64,11 @@ def edit_todo_list_item(list_uuid: UUID, item_uuid: UUID, todo: NewTodoModel):
     except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
         raise error
 
+
 def remove_todo_list_item(list_uuid: UUID, item_uuid: UUID):
     try:
-        # print(list_uuid, item_uuid, TodoEntity().find(DataList.TODOS).where("id", str(item_uuid)).where("list_id", str(list_uuid)).one(DataStoreManager))
-        TodoEntity().find(DataList.TODOS).where("id", str(item_uuid)).where("list_id", str(list_uuid)).remove(DataStoreManager)
+        TodoEntity().find(DataList.TODOS).where("id", str(item_uuid)).where(
+            "list_id", str(list_uuid)
+        ).remove(DataStoreManager)
     except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
         raise error
