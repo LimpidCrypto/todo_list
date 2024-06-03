@@ -32,6 +32,9 @@
 				"emilast.LogFileHighlighter"
 			]
 		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
 	}
 
 	// 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
