@@ -4,11 +4,11 @@
 
 1. [Quick Start](#1-quick-start)
 2. [Development](#2-development)
-    i. [Voraussetzungen](#i-voraussetzungen)
-    ii. [Setup](#ii-setup)
-    iii. [Run Linters](#iii-run-linters)
-    iv. [Wichtige Dateien und Ordner](#iv-wichtige-dateien-und-ordner)
-    v. [Directory Tree](#v-directory-tree)
+    1. [Voraussetzungen](#i-voraussetzungen)
+    2. [Setup](#ii-setup)
+    3. [Run Linters](#iii-run-linters)
+    4. [Wichtige Dateien und Ordner](#iv-wichtige-dateien-und-ordner)
+    5. [Directory Tree](#v-directory-tree)
 
 ## 1. Quick Start
 1. `docker pull limpidcrypto1/todo_list:latest`
