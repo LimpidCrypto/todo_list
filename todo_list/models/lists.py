@@ -67,7 +67,7 @@ def find_list_by_id(list_id: UUID) -> Optional[ListModel]:
         SerdeError: If the data cannot be deserialized.
 
     Returns:
-        ListModel: The todo list.
+        Optional[ListModel]: The todo list if found, otherwise None.
     """
     try:
         return ListEntity().find_by_id(DataList.LISTS, list_id).one(DataStoreManager)
@@ -85,9 +85,6 @@ def remove_list_by_id(list_id: UUID) -> None:
         FileNotFoundError: If the data store file is not found.
         JSONDecodeError: If the data store file is not a valid JSON file.
         SerdeError: If the data cannot be deserialized.
-
-    Returns:
-        int: The number of todo lists removed.
     """
     try:
         return ListEntity().find_by_id(DataList.LISTS, list_id).remove(DataStoreManager)
