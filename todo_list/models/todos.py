@@ -1,6 +1,6 @@
 from serde import serde
 from typing import Optional, List
-from todo_list.models._entities import TodoModel, TodoEntity
+from todo_list.models._entities import TodoModel, TodoEntity, TodoColumn
 from todo_list.core.data_store_manager import DataStoreManager, DataList
 from json import JSONDecodeError
 from serde import SerdeError
@@ -50,7 +50,7 @@ def find_todo_list_items(list_uuid: UUID) -> List[TodoModel]:
         return (
             TodoEntity()
             .find(DataList.TODOS)
-            .where("list_id", str(list_uuid))
+            .where(TodoColumn.LIST_ID, str(list_uuid))
             .all(DataStoreManager)
         )
     except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
@@ -67,8 +67,8 @@ def edit_todo_list_item(list_uuid: UUID, item_uuid: UUID, todo: NewTodoModel):
 
 def remove_todo_list_item(list_uuid: UUID, item_uuid: UUID):
     try:
-        TodoEntity().find(DataList.TODOS).where("id", str(item_uuid)).where(
-            "list_id", str(list_uuid)
+        TodoEntity().find(DataList.TODOS).where(TodoColumn.ID, str(item_uuid)).where(
+            TodoColumn.LIST_ID, str(list_uuid)
         ).remove(DataStoreManager)
     except (FileNotFoundError, JSONDecodeError, SerdeError) as error:
         raise error
