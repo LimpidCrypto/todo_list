@@ -1,0 +1,9 @@
+.venv
+.devcontainer
+.vscode
+.python-version
+.poetry-lock
+./todo_list/**/__pycache__
+./frontend/dist
+./frontend/node_modules
+./frontend/.angular
