@@ -2,18 +2,30 @@
 
 ## Inhalt
 
-1. Prerequirements
-2. Setup
-3. Quick Start
-4. Development
+1. [Quick Start](#1-quick-start)
+2. [Development](#2-development)
+    i. [Voraussetzungen](#i-voraussetzungen)
+    ii. [Setup](#ii-setup)
+    iii. [Run Linters](#iii-run-linters)
+    iv. [Wichtige Dateien und Ordner](#iv-wichtige-dateien-und-ordner)
+    v. [Directory Tree](#v-directory-tree)
 
-## Prerequirements
+## 1. Quick Start
+1. `docker pull limpidcrypto1/todo_list:latest`
+2. `docker run -p 4200:4200 -p 3000:3000 -t limpidcrypto1/todo_list:latest`
+
+## 2. Development
+
+### i. Voraussetzungen
 
 1. [VSCode](https://visualstudio.microsoft.com/de/free-developer-offers/)
     1. [Dev Container Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 2. [Docker](https://www.docker.com/products/docker-desktop/)
 
-## Setup
+
+### ii. Setup
+
+#### Dev Container
 
 1. VSCode öffnen
 2. `Strg + Shift + P` und nach "Dev Containers: Clone Repository in Container Volume..."
@@ -22,18 +34,31 @@
 5. VSCode setzt den Devcontainer automatisch auf
 6. Warten bis Devcontainer komplett konfiguriert wurde
 
-## Quick Start
+#### Server Starten
+
 1. Führe `poetry run python ./todo_list/main.py` in einem Terminal aus, um den Backend Server zu starten.
 2. Führe `cd ./frontend && ng serve` in einem Terminal aus, um den Frontend Server zu starten.
 3. Erreiche das Frontend über [localhost:4200](http://localhost:4200).
 
-## Development
-### Run Linters
+### iii. Run Linters
+
 - `poetry run black todo_list`
 - `poetry run flake8 todo_list`
 
-### Directory Tree
+### iv. Wichtige Dateien und Ordner
+- *./frontend/src/assets/openApi/documentation.yaml* - Die API Dokumentation
+- *./data/* - Der Datenspeicher
+- *./todo_list/main.py* - Die Hauptdatei der flask-App
+- *./todo_list/controllers/* - Die Controller-Funktionen, die die Requests entgegen nehmen
+- *./todo_list/models/* - Die Models steuern, wie auf Daten zugegriffen wird
+- *./todo_list/core/data_store_manager.py* - liest und bearbeitet den Datenspeicher
+- *./Dockerfile* - Die deployment Dockerfile
+- *./frontend/src/app/pages/documentation* - Erstellt aus der Doku das Frontend
+
+### v. Directory Tree
+
 #### `todo_list`
+
 ```
 todo_list/
 │
@@ -63,6 +88,7 @@ todo_list/
 └── main.py
 ```
 #### `frontend`
+
 ```
 frontend/
 │
