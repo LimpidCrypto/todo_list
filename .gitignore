@@ -162,4 +162,7 @@ cython_debug/
 .python-version
 
 data/*.json
-nohup.out
+**/nohup.out
+frontend/node_modules/
+frontend/.angular/
+frontend/dist/
